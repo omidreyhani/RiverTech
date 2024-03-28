@@ -5,11 +5,16 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Movies.Contracts;
 using Movies.Core;
 using Movies.Core.Hosting;
+using Newtonsoft.Json;
 using Orleans;
 using Serilog;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
@@ -60,12 +65,35 @@ namespace Movies.Server
 				.UseStartup<ApiStartup>()
 				.UseUrls($"http://*:{options.Value.Port}")
 				.Build();
+
 		}
+
+		private async Task LoadMovie()
+		{
+			_logger.LogInformation("Loading movie data...");
+			var client = _host.Services.GetRequiredService<IMoviesCatalogGrainClient>();
+
+			// Read the JSON file
+			string json = File.ReadAllText("../movies.json");
+
+			// Deserialize the JSON into a list of MovieModel objects
+			var data = JsonConvert.DeserializeObject<MoviesCatalogState>(json);
+
+			// Add each movie to the client
+			foreach (var movie in data.Movies)
+			{
+				await client.AddMovie(movie);
+			}
+
+			_logger.LogInformation("Movie data loaded successfully");
+		}
+
 
 		public async Task StartAsync(CancellationToken cancellationToken)
 		{
 			_logger.LogInformation("App started successfully {appName} ({version}) [{env}]",
 				_appInfo.Name, _appInfo.Version, _appInfo.Environment);
+			await LoadMovie();
 			await _host.StartAsync(cancellationToken);
 			ConsoleTitleBuilder.Append("- Api status: running 🚀");
 		}

@@ -6,7 +6,7 @@ namespace Movies.Server.Gql.App
 {
 	public class AppGraphQuery : ObjectGraphType
 	{
-		public AppGraphQuery(ISampleGrainClient sampleClient)
+		public AppGraphQuery(ISampleGrainClient sampleClient, IMoviesCatalogGrainClient movieCatalogGrainClient)
 		{
 			Name = "AppQueries";
 
@@ -17,6 +17,12 @@ namespace Movies.Server.Gql.App
 				}),
 				resolve: ctx => sampleClient.Get(ctx.Arguments["id"].ToString())
 			);
+
+
+			Field<ListGraphType<MovieDataGraphType>>("toprated",
+				resolve: ctx => movieCatalogGrainClient.ListTopRatedMovies()
+			);
+
 		}
 	}
 }

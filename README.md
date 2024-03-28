@@ -37,6 +37,7 @@ The application has the following functionality:
 ### Running the sample application
 
 - Make sure the startup project is set to `Movies.Server`
+- Playground is accessible through `http://localhost:6600/ui/playground`
 - The project has one controller `SampleDataController` that has to requests:
   - [GET] http://localhost:6600/api/sampledata/{id}
   - [POST] http://localhost:6600/api/sampledata/{id}

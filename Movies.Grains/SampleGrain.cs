@@ -17,4 +17,18 @@ namespace Movies.Grains
 			return Task.CompletedTask;
 		}
 	}
+
+	[StorageProvider(ProviderName = "Default")]
+	public class MovieGrain : Grain<MovieModel>, IMovieGrain
+	{
+		public Task<MovieModel> Get()
+			=> Task.FromResult(State);
+
+		public Task Set(MovieModel movie)
+		{
+			movie.Id = this.GetPrimaryKeyLong();
+			State = movie;
+			return Task.CompletedTask;
+		}
+	}
 }
