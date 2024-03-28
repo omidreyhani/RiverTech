@@ -4,12 +4,13 @@ using System.Threading.Tasks;
 
 namespace Movies.Contracts
 {
-	public interface IMoviesCatalogGrain : IGrainWithIntegerKey 
+	public interface IMoviesCatalogGrain : IGrainWithIntegerKey
 	{
 		Task<List<MovieModel>> ListTopRatedMovies();
 		Task<List<MovieModel>> ListMovies();
 		Task<List<MovieModel>> SearchMovies(string query);
 		Task<List<MovieModel>> FilterMoviesByGenre(string genre);
-		Task AddMovie(MovieModel movie);
+		Task AddOrUpdateMovie(MovieModel movie);
+		Task<MovieModel> GetMovie(long id);
 	}
 }

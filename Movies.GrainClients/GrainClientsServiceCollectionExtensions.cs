@@ -9,6 +9,7 @@ namespace Movies.GrainClients
 		{
 			services.AddSingleton<ISampleGrainClient, SampleGrainClient>();
 			services.AddSingleton<IMoviesCatalogGrainClient, MoviesCatalogGrainClient>();
+			services.AddSingleton<IMovieGrainClient, MovieGrainClient>();
 		}
 	}
 }

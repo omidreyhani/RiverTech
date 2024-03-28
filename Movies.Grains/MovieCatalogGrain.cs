@@ -32,7 +32,7 @@ namespace Movies.Grains
       return Task.FromResult(movies);
     }
 
-    public async Task AddMovie(MovieModel movie)
+    public async Task AddOrUpdateMovie(MovieModel movie)
     {
       State.Movies.Add(movie);
       await WriteStateAsync();
@@ -51,6 +51,11 @@ namespace Movies.Grains
         existingMovie.Img = movie.Img;
         await WriteStateAsync();
       }
+    }
+
+		public Task<MovieModel> GetMovie(long id){
+      var movie = State.Movies.FirstOrDefault(m => m.Id == id);
+      return Task.FromResult(movie);
     }
 	}
 }

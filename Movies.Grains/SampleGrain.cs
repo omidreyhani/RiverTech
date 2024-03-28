@@ -21,14 +21,34 @@ namespace Movies.Grains
 	[StorageProvider(ProviderName = "Default")]
 	public class MovieGrain : Grain<MovieModel>, IMovieGrain
 	{
-		public Task<MovieModel> Get()
-			=> Task.FromResult(State);
 
-		public Task Set(MovieModel movie)
+		public async Task<MovieModel> Get()
 		{
-			movie.Id = this.GetPrimaryKeyLong();
+
+			if (State == null)
+			{
+				var catalogGrain = GrainFactory.GetGrain<IMoviesCatalogGrain>(0);
+				var movie = await catalogGrain.GetMovie(this.GetPrimaryKeyLong());
+				State = movie;
+			}
+
+			return await Task.FromResult(State);
+		}
+
+		public async Task Add(MovieModel movie)
+		{
+
+			var catalogGrain = GrainFactory.GetGrain<IMoviesCatalogGrain>(0);
+			await catalogGrain.AddOrUpdateMovie(movie);
 			State = movie;
-			return Task.CompletedTask;
+		}
+
+		public async Task Update(MovieModel movie)
+		{
+
+			var catalogGrain = GrainFactory.GetGrain<IMoviesCatalogGrain>(0);
+			await catalogGrain.AddOrUpdateMovie(movie);
+			State = movie;
 		}
 	}
 }

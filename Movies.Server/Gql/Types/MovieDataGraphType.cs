@@ -18,8 +18,6 @@ namespace Movies.Server.Gql.Types
 			Field(x => x.Length, nullable: true).Description("Length.");
 			Field(x => x.Img, nullable: true).Description("Img.");
 			Field(x => x.Key, nullable: true).Description("Key.");
-
-			
 		}
 	}
 }

@@ -16,18 +16,33 @@ namespace Movies.GrainClients
 			_grainFactory = grainFactory;
 		}
 
-		public Task AddMovie(MovieModel movie){
+		public Task AddMovie(MovieModel movie)
+		{
 			var grain = _grainFactory.GetGrain<IMoviesCatalogGrain>(0);
-			return grain.AddMovie(movie);
+			return grain.AddOrUpdateMovie(movie);
 		}
-		public Task<List<MovieModel>> FilterMoviesByGenre(string genre) => throw new System.NotImplementedException();
-		public Task<List<MovieModel>> ListMovies() => throw new System.NotImplementedException();
+		public Task<List<MovieModel>> FilterMoviesByGenre(string genre)
+		{
+
+			var grain = _grainFactory.GetGrain<IMoviesCatalogGrain>(0);
+			return grain.FilterMoviesByGenre(genre);
+
+		}
+		public Task<List<MovieModel>> ListMovies()
+		{
+			var grain = _grainFactory.GetGrain<IMoviesCatalogGrain>(0);
+			return grain.ListMovies();
+		}
 		public Task<List<MovieModel>> ListTopRatedMovies()
 		{
 			var grain = _grainFactory.GetGrain<IMoviesCatalogGrain>(0);
 			return grain.ListTopRatedMovies();
 		}
-		public Task<List<MovieModel>> SearchMovies(string query) => throw new System.NotImplementedException();
+		public Task<List<MovieModel>> SearchMovies(string query)
+		{
+			var grain = _grainFactory.GetGrain<IMoviesCatalogGrain>(0);
+			return grain.SearchMovies(query);
+		}
 
 	}
 }

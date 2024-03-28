@@ -78,3 +78,106 @@ If you get the demo in good shape and have extra time, add your own flair and fe
   - Provide steps how to build/launch your application
 
 Good luck!
+
+
+## Working Solution 
+To run the project form the terminal execute `dotnet watch run` inside Movies.Server folder
+
+Endpoint accessible from `http://localhost:6600/ui/playground`
+
+### Working mutations and queries
+
+```graphql
+mutation {
+  addMovie(
+    movie: {
+      id: 1
+      key: "key1"
+      name: "New Movie"
+      genres: ["Action", "Adventure"]
+      rate: 4.5
+      length: "120"
+      img: "image.jpg"
+    }
+  ) {
+    id
+    key
+    name
+    genres
+    rate
+    length
+    img
+  }
+
+  updateMovie(
+    movie: {
+      id: 1
+      key: "key1"
+      name: "Updated Movie"
+      genres: ["Drama", "Thriller"]
+      rate: 4.5
+      length: "120"
+      img: "updated_image.jpg"
+    }
+  ) {
+    id
+    key
+    name
+    genres
+    rate
+    length
+    img
+  }
+}
+```
+```graphql
+query{
+  movie(id:1){
+    id
+    name
+  }
+}
+
+
+mutation {
+  addMovie(
+    movie: {
+      id: 1
+      key: "key1"
+      name: "New Movie"
+      genres: ["Action", "Adventure"]
+      rate: 4.5
+      length: "120"
+      img: "image.jpg"
+    }
+  ) {
+    id
+    key
+    name
+    genres
+    rate
+    length
+    img
+  }
+
+  updateMovie(
+    movie: {
+      id: 1
+      key: "key1"
+      name: "Updated Movie"
+      genres: ["Drama", "Thriller"]
+      rate: 4.5
+      length: "120"
+      img: "updated_image.jpg"
+    }
+  ) {
+    id
+    key
+    name
+    genres
+    rate
+    length
+    img
+  }
+}
+```

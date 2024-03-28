@@ -6,6 +6,7 @@ namespace Movies.Contracts
   public interface IMovieGrain : IGrainWithIntegerKey
   {
     Task<MovieModel> Get();
-    Task Set(MovieModel movie);
+    Task Add(MovieModel movie);
+    Task Update(MovieModel movie);
   }
 }
